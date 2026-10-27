@@ -4,7 +4,7 @@ Expand a standard five-field cron expression and display each field's
 scheduled values alongside its command.
 
 ```bash
-python main.py "*/15 0 1,15 * 1-5 /usr/bin/find"
+python cli.py "*/15 0 1,15 * 1-5 /usr/bin/find"
 ```
 
 The fields support `*`, comma-separated values, ranges, and `/step` values.
