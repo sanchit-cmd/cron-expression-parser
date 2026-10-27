@@ -21,12 +21,11 @@ command-line entry point, and table presentation are kept in separate modules.
 ## Requirements
 
 - Python 3.12 or newer
-- [uv](https://docs.astral.sh/uv/)
+- Either [uv](https://docs.astral.sh/uv/) or `pip`
 
-The terminal UI uses [Rich](https://github.com/Textualize/rich), which `uv` will
-install from the project dependencies.
+The terminal UI uses [Rich](https://github.com/Textualize/rich).
 
-## Setup
+## Setup with uv
 
 From the project directory, synchronize the environment and dependencies:
 
@@ -37,12 +36,41 @@ uv sync
 `uv sync` creates or updates the project virtual environment using
 `pyproject.toml` and `uv.lock`.
 
+## Setup with pip
+
+Create and activate a virtual environment, then install Rich:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install rich
+```
+
+On Windows Command Prompt, activate the environment with:
+
+```bat
+.venv\Scripts\activate
+```
+
+On Windows PowerShell, use:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
 ## Run the application
 
 Pass the full cron expression and command as one quoted argument:
 
 ```bash
 uv run python cli.py "*/15 0 1,15 * 1-5 /usr/bin/find"
+```
+
+If you set up the project with `pip` and activated the virtual environment,
+run:
+
+```bash
+python cli.py "*/15 0 1,15 * 1-5 /usr/bin/find"
 ```
 
 The output is a table with one row per cron field and one row for the command.
@@ -66,10 +94,22 @@ the program. The command portion may contain spaces:
 uv run python cli.py "0 0 * * * /usr/bin/echo hello world"
 ```
 
+With the `pip` setup, the equivalent command is:
+
+```bash
+python cli.py "0 0 * * * /usr/bin/echo hello world"
+```
+
 For help:
 
 ```bash
 uv run python cli.py --help
+```
+
+Or, with the `pip` setup:
+
+```bash
+python cli.py --help
 ```
 
 ## Supported cron syntax
@@ -120,18 +160,24 @@ non-zero status.
 Examples of invalid input:
 
 ```bash
-uv run python cli.py "60 * * * * /bin/true"
-uv run python cli.py "*/0 * * * * /bin/true"
-uv run python cli.py "* * * * *"
+python cli.py "60 * * * * /bin/true"
+python cli.py "*/0 * * * * /bin/true"
+python cli.py "* * * * *"
 ```
 
 ## Run the tests
 
 The test suite uses Python's built-in `unittest` module, so no additional test
-dependency is needed:
+dependency is needed. With `uv`, run:
 
 ```bash
 uv run python -m unittest discover -s test -v
+```
+
+With the `pip` setup and activated virtual environment, run:
+
+```bash
+python -m unittest discover -s test -v
 ```
 
 The tests cover the sample expression, full wildcards, lists, ranges, steps,
@@ -186,8 +232,8 @@ evaluated.
   `test/test_cron_parser.py`.
 - Keep command-line input and error reporting in `app/main.py`.
 - Change table appearance or output formatting in `app/presentation/table.py`.
-- Run the full test suite with `uv run python -m unittest discover -s test -v`
-  after making changes.
+- After making changes, run the test suite using the `uv` or `pip` command in
+  the [Run the tests](#run-the-tests) section.
 
 ## Submission checklist
 
