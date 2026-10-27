@@ -1,6 +1,11 @@
 import argparse
 from collections.abc import Sequence
 
+from rich import box
+from rich.console import Console
+from rich.table import Table
+from rich.text import Text
+
 
 class CronExpressionParser:
     FIELDS = (
@@ -137,8 +142,33 @@ class CronExpressionParser:
 
 
 def render(rows: Sequence[tuple[str, str]]) -> None:
+    table = Table(
+        title="CRON EXPANSION",
+        title_style="bold bright_cyan",
+        box=box.ROUNDED,
+        border_style="bright_blue",
+        header_style="bold bright_magenta",
+        row_styles=("", "dim"),
+        padding=(0, 1),
+        show_lines=True,
+    )
+    table.add_column("FIELD", width=14, no_wrap=True, style="bold bright_cyan")
+    table.add_column(
+        "EXPANDED VALUES",
+        no_wrap=True,
+        overflow="ignore",
+        style="bright_white",
+    )
+
     for label, value in rows:
-        print(f"{label:<14}{value}")
+        field_style = "bold bright_yellow" if label == "command" else "bold bright_cyan"
+        value_style = "bold bright_green" if label == "command" else "bright_white"
+        table.add_row(
+            Text(label, style=field_style),
+            Text(value, style=value_style),
+        )
+
+    Console().print(table)
 
 
 def main() -> None:
