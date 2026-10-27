@@ -120,25 +120,25 @@ The expression has exactly five schedule fields followed by a command:
 minute hour day-of-month month day-of-week command
 ```
 
-| Field | Allowed numeric values |
-|---|---:|
-| Minute | 0–59 |
-| Hour | 0–23 |
-| Day of month | 1–31 |
-| Month | 1–12 |
-| Day of week | 0–7 |
+| Field        | Allowed numeric values |
+| ------------ | ---------------------: |
+| Minute       |                   0–59 |
+| Hour         |                   0–23 |
+| Day of month |                   1–31 |
+| Month        |                   1–12 |
+| Day of week  |                    0–7 |
 
 Supported field forms:
 
-| Form | Example | Meaning |
-|---|---|---|
-| A single value | `5` | Only value 5 |
-| Wildcard | `*` | Every value in the field's range |
-| Comma-separated list | `1,5,10` | Values 1, 5, and 10 |
-| Inclusive range | `9-12` | Values 9 through 12 |
-| Wildcard with a step | `*/15` | Every 15th value, starting at the field's minimum |
-| Range with a step | `9-17/4` | Every 4th value from 9 through 17 |
-| Value with a step | `5/20` | Starting at 5, every 20th value through the field's maximum |
+| Form                 | Example  | Meaning                                                     |
+| -------------------- | -------- | ----------------------------------------------------------- |
+| A single value       | `5`      | Only value 5                                                |
+| Wildcard             | `*`      | Every value in the field's range                            |
+| Comma-separated list | `1,5,10` | Values 1, 5, and 10                                         |
+| Inclusive range      | `9-12`   | Values 9 through 12                                         |
+| Wildcard with a step | `*/15`   | Every 15th value, starting at the field's minimum           |
+| Range with a step    | `9-17/4` | Every 4th value from 9 through 17                           |
+| Value with a step    | `5/20`   | Starting at 5, every 20th value through the field's maximum |
 
 Lists, ranges, and steps can be combined in one field, for example:
 
@@ -211,9 +211,6 @@ from app.parser import parse_cron
 rows = parse_cron("*/15 0 1,15 * 1-5 /usr/bin/find")
 ```
 
-`parse_cron` returns a list of `(field_name, expanded_values)` pairs, including
-the command as the last row. It raises `ValueError` for invalid expressions.
-
 ## Scope and limitations
 
 This program expands each field independently. It does not calculate actual
@@ -235,8 +232,5 @@ evaluated.
 - After making changes, run the test suite using the `uv` or `pip` command in
   the [Run the tests](#run-the-tests) section.
 
-## Submission checklist
-
-To submit the exercise, push the complete project to GitHub, make the repository
-public or grant the reviewer access, and share the repository URL. Commit
-changes as you work so the project history reflects the development process.
+`parse_cron` returns a list of `(field_name, expanded_values)` pairs, including
+the command as the last row. It raises `ValueError` for invalid expressions.
